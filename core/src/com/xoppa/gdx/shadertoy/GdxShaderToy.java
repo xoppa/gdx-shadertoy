@@ -23,19 +23,21 @@ public class GdxShaderToy extends ApplicationAdapter {
 	CollapsableTextWindow fsWindow;
 	float codeChangedTimer = -1f;
 	long startTimeMillis;
-	FPSLogger fpsLogger;
+	long fpsStartTimer;
+	Logger logger;
 
 	@Override
 	public void create () {
 		ShaderProgram.pedantic = false;
 		startTimeMillis = TimeUtils.millis();
+		fpsStartTimer = TimeUtils.nanoTime();
 		img = new Texture(Gdx.files.internal("badlogic.jpg"));
 		img.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		VisUI.load();
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
-		toy = new FullQuadToy();
-		toy.create(new Logger("TEST", Logger.INFO) {
+
+		logger = new Logger("TEST", Logger.INFO) {
 			com.badlogic.gdx.utils.StringBuilder sb = new StringBuilder();
 			private void add(String message) {
 				long time = TimeUtils.timeSinceMillis(startTimeMillis);
@@ -61,7 +63,10 @@ public class GdxShaderToy extends ApplicationAdapter {
 				//add("[red]" + message + "[]");
 				add("ERROR: " + message);
 			}
-		});
+		};
+
+		toy = new FullQuadToy();
+		toy.create(logger);
 		toy.setTexture(img);
 
 		ChangeListener codeChangeListener = new ChangeListener() {
@@ -90,8 +95,6 @@ public class GdxShaderToy extends ApplicationAdapter {
 		stage.addActor(fsWindow);
 
 		//toy.setShader(defaultVS, defaultFS);
-
-		fpsLogger = new FPSLogger();
 	}
 
 	@Override
@@ -108,7 +111,6 @@ public class GdxShaderToy extends ApplicationAdapter {
 		toy.render();
 		stage.act();
 		stage.draw();
-		fpsLogger.log();
 	}
 
     private void update() {
@@ -118,6 +120,10 @@ public class GdxShaderToy extends ApplicationAdapter {
 				toy.setShader(vsWindow.getText(), fsWindow.getText());
             }
         }
+		if (TimeUtils.nanoTime() - fpsStartTimer > 1000000000) /* 1,000,000,000ns == one second */{
+			logger.info("fps: " + Gdx.graphics.getFramesPerSecond());
+			fpsStartTimer = TimeUtils.nanoTime();
+		}
     }
 
 	@Override
