@@ -2,6 +2,7 @@ package com.xoppa.gdx.shadertoy;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -22,6 +23,7 @@ public class GdxShaderToy extends ApplicationAdapter {
 	CollapsableTextWindow fsWindow;
 	float codeChangedTimer = -1f;
 	long startTimeMillis;
+	FPSLogger fpsLogger;
 
 	@Override
 	public void create () {
@@ -88,6 +90,8 @@ public class GdxShaderToy extends ApplicationAdapter {
 		stage.addActor(fsWindow);
 
 		//toy.setShader(defaultVS, defaultFS);
+
+		fpsLogger = new FPSLogger();
 	}
 
 	@Override
@@ -104,6 +108,7 @@ public class GdxShaderToy extends ApplicationAdapter {
 		toy.render();
 		stage.act();
 		stage.draw();
+		fpsLogger.log();
 	}
 
     private void update() {

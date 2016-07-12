@@ -11,6 +11,8 @@ uniform sampler2D u_texture;
 uniform float u_time;
 uniform vec2 u_cursor;
 
+// BASED ON: https://www.shadertoy.com/view/Ms2SD1
+
 /*
 "Seascape" by Alexander Alekseev aka TDM - 2014
 License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
