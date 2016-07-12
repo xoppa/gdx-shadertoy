@@ -9,6 +9,7 @@ varying LOWP vec4 v_color;
 varying vec2 v_texCoords;
 uniform sampler2D u_texture;
 uniform float u_time;
+uniform vec2 u_cursor;
 
 /*
 "Seascape" by Alexander Alekseev aka TDM - 2014
@@ -21,7 +22,7 @@ const float PI = 3.1415;
 const float EPSILON= 1e-3;
 float EPSILON_NRM= 0.1 / 1024.0;
 float iGlobalTime = u_time;
-vec2 iMouse = vec2(0.0);
+vec2 iMouse = -1.0 + 2.0 * u_cursor;
 
 // sea
 const int ITER_GEOMETRY = 3;
@@ -173,7 +174,7 @@ if(hmid < 0.0) {
 
 // main
 void mainImage( out vec4 fragColor, in vec2 uv ) {
-    float time = iGlobalTime * 0.3 + iMouse.x*0.01;
+    float time = iGlobalTime * 0.3 + iMouse.x;
 
     // ray
     vec3 ang = vec3(sin(time*3.0)*0.1,sin(time)*0.2+0.3,time);

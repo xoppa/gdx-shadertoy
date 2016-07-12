@@ -17,6 +17,7 @@ public class FullQuadToy {
 
     // Uniforms
     private int u_time;
+    private int u_cursor;
 
     public void create(Logger logger) {
         this.logger = logger;
@@ -45,6 +46,11 @@ public class FullQuadToy {
             if (shader != null) {
                 if (u_time >= 0)
                     shader.setUniformf(u_time, time += Gdx.graphics.getDeltaTime());
+                if (u_cursor >= 0) {
+                    final float cursorX = (float)Gdx.input.getX() / (float)Gdx.graphics.getWidth();
+                    final float cursorY = 1f - ((float)Gdx.input.getY() / (float)Gdx.graphics.getHeight());
+                    shader.setUniformf(u_cursor, cursorX, cursorY);
+                }
                 //FIXME: set other uniforms if required by the shader
             }
             batch.draw(texture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -70,6 +76,7 @@ public class FullQuadToy {
         shader = newShader;
 
         u_time = shader.fetchUniformLocation("u_time", false);
+        u_cursor = shader.fetchUniformLocation("u_cursor", false);
         //FIXME: fetch other uniforms
     }
 
