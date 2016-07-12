@@ -8,13 +8,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.*;
+import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class GdxShaderToy extends ApplicationAdapter {
 	Stage stage;
@@ -24,10 +21,12 @@ public class GdxShaderToy extends ApplicationAdapter {
 	CollapsableTextWindow vsWindow;
 	CollapsableTextWindow fsWindow;
 	float codeChangedTimer = -1f;
+	long startTimeMillis;
 
 	@Override
 	public void create () {
 		ShaderProgram.pedantic = false;
+		startTimeMillis = TimeUtils.millis();
 		img = new Texture(Gdx.files.internal("badlogic.jpg"));
 		img.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		VisUI.load();
@@ -35,9 +34,16 @@ public class GdxShaderToy extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(stage);
 		toy = new FullQuadToy();
 		toy.create(new Logger("TEST", Logger.INFO) {
-			DateFormat df = new SimpleDateFormat("HH:mm:ss");
+			com.badlogic.gdx.utils.StringBuilder sb = new StringBuilder();
 			private void add(String message) {
-				logWindow.addText(df.format(new Date()) + " " + message + "\n");
+				long time = TimeUtils.timeSinceMillis(startTimeMillis);
+				long s = time / 1000;
+				long m = s / 60;
+				long h = m / 60;
+				sb.setLength(0);
+				sb.append(h, 2).append(':').append(m % 60, 2).append(':').append(s % 60, 2).append('.').append(time % 1000, 3);
+				sb.append(" ").append(message).append("\n");
+				logWindow.addText(sb.toString());
 			}
 
 			@Override
