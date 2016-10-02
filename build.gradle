@@ -19,12 +19,12 @@ allprojects {
     version = '1.0'
     ext {
         appName = "gdx-shadertoy"
-        gdxVersion = '1.9.3'
+        gdxVersion = '1.9.4'
         roboVMVersion = '2.1.0'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
-        visUIVersion = '1.1.4-SNAPSHOT'
+        visUIVersion = '1.2.3'
     }
 
     repositories {
