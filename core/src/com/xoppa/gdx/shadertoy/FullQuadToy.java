@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -21,6 +22,7 @@ public class FullQuadToy {
 
     public void create(Logger logger) {
         this.logger = logger;
+        //viewport = new FitViewport(1000,1000);
         viewport = new ScreenViewport();
         batch = new SpriteBatch();
     }
@@ -28,7 +30,7 @@ public class FullQuadToy {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         batch.setProjectionMatrix(viewport.getCamera().combined);
-        logger.info("Resize: "+width+" x "+height);
+        logger.info("Resize: " + width + " x " + height);
     }
 
     public void setLogger(Logger logger) {
@@ -52,8 +54,12 @@ public class FullQuadToy {
                     shader.setUniformf(u_cursor, cursorX, cursorY);
                 }
                 //FIXME: set other uniforms if required by the shader
+                shader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             }
             batch.draw(texture, 0, 0, viewport.getWorldWidth(), viewport.getWorldHeight());
+            //batch.draw(texture, 0, 0, texture.getWidth(), texture.getHeight());
+            //batch.draw(texture, 0, 0, viewport.getScreenWidth(), viewport.getScreenHeight());
+            
             batch.end();
         }
     }

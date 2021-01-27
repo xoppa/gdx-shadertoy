@@ -2,8 +2,10 @@ package com.xoppa.gdx.shadertoy;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,6 +15,8 @@ import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
+import com.xoppa.gdx.shadertoy.CollapsableTextWindow;
+import com.xoppa.gdx.shadertoy.FullQuadToy;
 
 public class GdxShaderToy extends ApplicationAdapter {
 	Stage stage;
@@ -31,14 +35,26 @@ public class GdxShaderToy extends ApplicationAdapter {
 		ShaderProgram.pedantic = false;
 		startTimeMillis = TimeUtils.millis();
 		fpsStartTimer = TimeUtils.nanoTime();
-		img = new Texture(Gdx.files.internal("badlogic.jpg"));
-		img.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+		Pixmap pixmap = new Pixmap(0, 0, Pixmap.Format.RGB565);
+		
+		/*
+		pixmap.setColor(Color.BLUE);
+		pixmap.fill();
+		
+		pixmap.setColor(Color.RED);
+		pixmap.fillCircle(5, 5, 50);
+		*/
+		
+		img = new Texture(pixmap);
+		pixmap.dispose();
+		//img.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+		
 		VisUI.load();
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
 
 		logger = new Logger("TEST", Logger.INFO) {
-			com.badlogic.gdx.utils.StringBuilder sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			private void add(String message) {
 				long time = TimeUtils.timeSinceMillis(startTimeMillis);
 				long s = time / 1000;
@@ -82,8 +98,12 @@ public class GdxShaderToy extends ApplicationAdapter {
 		logWindow = new CollapsableTextWindow("Log", 0, 0, w, 100f);
 		stage.addActor(logWindow);
 
-        final String defaultVS = "";
-		final String defaultFS = "";
+        final String defaultVS = Gdx.files.internal("shaders/water.vertex.glsl").readString();
+        final String defaultFS = Gdx.files.internal("shaders/water.fragment.glsl").readString();
+		//final String defaultVS = Gdx.files.internal("test.vsh.glsl").readString();
+		//final String defaultFS = Gdx.files.internal("test.fsh").readString();
+		//final String defaultVS = Gdx.files.internal("grayscale.vsh").readString();
+		//final String defaultFS = Gdx.files.internal("grayscale.fsh").readString();
 
 		vsWindow = new CollapsableTextWindow("Vertex Shader", 0, 100f, hw, h - 100f);
 		vsWindow.setText(defaultVS);
@@ -94,7 +114,7 @@ public class GdxShaderToy extends ApplicationAdapter {
 		fsWindow.addTextAreaListener(codeChangeListener);
 		stage.addActor(fsWindow);
 
-		//toy.setShader(defaultVS, defaultFS);
+		toy.setShader(defaultVS, defaultFS);
 	}
 
 	@Override
@@ -121,7 +141,7 @@ public class GdxShaderToy extends ApplicationAdapter {
             }
         }
 		if (TimeUtils.nanoTime() - fpsStartTimer > 1000000000) /* 1,000,000,000ns == one second */{
-			logger.info("fps: " + Gdx.graphics.getFramesPerSecond());
+			//logger.info("fps: " + Gdx.graphics.getFramesPerSecond());
 			fpsStartTimer = TimeUtils.nanoTime();
 		}
     }
