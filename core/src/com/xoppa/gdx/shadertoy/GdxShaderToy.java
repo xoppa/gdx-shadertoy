@@ -98,8 +98,10 @@ public class GdxShaderToy extends ApplicationAdapter {
 		logWindow = new CollapsableTextWindow("Log", 0, 0, w, 100f);
 		stage.addActor(logWindow);
 
-        final String defaultVS = Gdx.files.internal("shaders/water.vertex.glsl").readString();
-        final String defaultFS = Gdx.files.internal("shaders/water.fragment.glsl").readString();
+        //final String defaultVS = Gdx.files.internal("shaders/water.vertex.glsl").readString();
+        //final String defaultFS = Gdx.files.internal("shaders/water.fragment.glsl").readString();
+		final String defaultVS = Gdx.files.internal("shaders/stars.vertex.glsl").readString();
+		final String defaultFS = Gdx.files.internal("shaders/stars.fragment.glsl").readString();
 		//final String defaultVS = Gdx.files.internal("test.vsh.glsl").readString();
 		//final String defaultFS = Gdx.files.internal("test.fsh").readString();
 		//final String defaultVS = Gdx.files.internal("grayscale.vsh").readString();
