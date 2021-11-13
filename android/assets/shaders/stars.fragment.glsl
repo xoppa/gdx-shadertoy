@@ -14,26 +14,25 @@ uniform float u_time;
 uniform vec2 u_cursor;
 uniform vec2 u_resolution;
 
-
-float Star(vec2 centerScreenPos, float flare) {
-    float size = 0.05;
-    float dist = length(centerScreenPos);
-    float color = size / dist;
-
-    float rays = max(0, 1 - abs(centerScreenPos.x * centerScreenPos.y * 3000)); //gradient from 0-1 textcords(edge to edge)
-    color += rays;
-    color *= smoothstep(0.5, 0.1, dist);//keep within cell
-    return color;
-}
-
 float Hash21(vec2 p) {
     p = fract(p * vec2(123.45, 456.21));
     p += dot(p, p + 45.67);
     return fract(p.x * p.y);
 }
 
+float Star(vec2 centerScreenPos, float flare) {
+    float size = 0.05;
+    float dist = length(centerScreenPos);
+    float color = size / dist;
+
+    float rays = max(0.0, 1.0 - abs(centerScreenPos.x * centerScreenPos.y * 3000.0)); //gradient from 0-1 textcords(edge to edge)
+    color += rays;
+    color *= smoothstep(0.5, 0.1, dist);//keep within cell
+    return color;
+}
+
 void main() {
-    float starDensity = 20;
+    float starDensity = 20.0;
     vec3 fragColor = vec3(0, 0, 0);
 
     // pixel coord relative to center of screen
@@ -52,7 +51,7 @@ void main() {
             float shiftY = fract(shiftX * 35.0);
             vec2 offset = vec2(shiftX, shiftY) - 0.5;
 
-            fragColor += Star(cellCoord - neighborOffset - offset, 1);
+            fragColor += Star(cellCoord - neighborOffset - offset, 1.0);
 
             //raw center cell star
             //fragColor += Star(cellCoord, 1) / 9;
@@ -61,7 +60,7 @@ void main() {
 
 
     //debug show border
-    //if (cellCoord.x>0.48 || cellCoord.y>0.48) fragColor.r = 1;
+    //if (cellCoord.x>0.48 || cellCoord.y>0.48) fragColor.r = 1.0;
 
     //fragColor.rg += cellID;
 
