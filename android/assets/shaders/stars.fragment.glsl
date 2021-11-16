@@ -54,7 +54,7 @@ void main() {
             fragColor += Star(cellCoord - neighborOffset - offset, 1.0);
 
             //raw center cell star
-            //fragColor += Star(cellCoord, 1) / 9;
+            //fragColor += Star(cellCoord, 1.0) / 9.0;
         }
     }
 
@@ -63,7 +63,7 @@ void main() {
     //if (cellCoord.x>0.48 || cellCoord.y>0.48) fragColor.r = 1.0;
 
     //fragColor.rg += cellID;
-
+    //fragColor.rg = u_resolution.xy;
 
     gl_FragColor = vec4(fragColor, 1.0);
 }

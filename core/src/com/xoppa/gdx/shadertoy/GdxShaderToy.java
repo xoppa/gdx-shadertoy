@@ -94,9 +94,9 @@ public class GdxShaderToy extends ApplicationAdapter {
 
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
-		float hw = w * 0.5f;
+		float hw = (w * 0.5f) - 100;
 		logWindow = new CollapsableTextWindow("Log", 0, 0, w, 100f);
-		stage.addActor(logWindow);
+		//stage.addActor(logWindow);
 
         //final String defaultVS = Gdx.files.internal("shaders/water.vertex.glsl").readString();
         //final String defaultFS = Gdx.files.internal("shaders/water.fragment.glsl").readString();
@@ -110,11 +110,11 @@ public class GdxShaderToy extends ApplicationAdapter {
 		vsWindow = new CollapsableTextWindow("Vertex Shader", 0, 100f, hw, h - 100f);
 		vsWindow.setText(defaultVS);
 		vsWindow.addTextAreaListener(codeChangeListener);
-		stage.addActor(vsWindow);
+		//stage.addActor(vsWindow);
 		fsWindow = new CollapsableTextWindow("Fragment Shader", hw, 100f, hw, h - 100f);
 		fsWindow.setText(defaultFS);
 		fsWindow.addTextAreaListener(codeChangeListener);
-		stage.addActor(fsWindow);
+		//stage.addActor(fsWindow);
 
 		toy.setShader(defaultVS, defaultFS);
 	}
