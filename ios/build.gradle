@@ -4,7 +4,7 @@ sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-	mainClassName = "com.xoppa.gdx.shadertoy.IOSLauncher"
+    mainClassName = "com.shadertoy.IOSLauncher"
 }
 
 launchIPhoneSimulator.dependsOn build
@@ -12,8 +12,6 @@ launchIPadSimulator.dependsOn build
 launchIOSDevice.dependsOn build
 createIPA.dependsOn build
 
-
-eclipse.project {
-    name = appName + "-ios"
-    natures 'org.robovm.eclipse.RoboVMNature'
+robovm {
+    archs = "thumbv7:arm64"
 }
